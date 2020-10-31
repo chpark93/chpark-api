@@ -16,6 +16,4 @@ class EventTest {
         assertThat(event).isNotNull();
     }
 
-    @Test
-
 }
