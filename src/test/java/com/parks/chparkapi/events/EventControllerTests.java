@@ -1,6 +1,7 @@
 package com.parks.chparkapi.events;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.parks.chparkapi.common.TestDescription;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +35,7 @@ public class EventControllerTests {
     ObjectMapper objectMapper;
 
     @Test
+    @TestDescription("Test Operation")
     public void createEvent() throws Exception {
 
         Event event = Event.builder()
@@ -62,6 +64,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @TestDescription("Test Operation - emptyInput")
     public void createEvent_Bad_Request_Empty_Input() throws Exception {
          EventDTO eventDTO = EventDTO.builder().build();
 
@@ -72,6 +75,7 @@ public class EventControllerTests {
     }
 
     @Test
+    @TestDescription("Test Operation - wrongInput")
     public void createEvent_Bad_Request_Wrong_Input() throws Exception {
         EventDTO eventDTO = EventDTO.builder()
                 .name("Spring")
