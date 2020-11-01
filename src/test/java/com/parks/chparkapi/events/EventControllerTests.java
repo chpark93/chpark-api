@@ -38,6 +38,39 @@ public class EventControllerTests {
     @TestDescription("Test Operation")
     public void createEvent() throws Exception {
 
+        EventDTO event = EventDTO.builder()
+                .name("Spring")
+                .description("rest api development")
+                .beginEnrollmentDateTime(LocalDateTime.of(2020, 10, 31, 17, 12))
+                .closeEnrollmentDateTime(LocalDateTime.of(2020, 11, 1, 17, 50))
+                .beginEventDateTime(LocalDateTime.of(2020,11,1,18,10))
+                .endEventDateTime(LocalDateTime.of(2020,11,1,20,10))
+                .basePrice(100)
+                .maxPrice(200)
+                .limitOfEnrollment(100)
+                .location("강남역 신분당선")
+                .build();
+
+        mockMvc.perform( post("/api/events")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaTypes.HAL_JSON)
+                    .content(objectMapper.writeValueAsString(event))
+                )
+                .andDo(print())
+                .andExpect( status().isCreated() )
+                .andExpect(jsonPath("id").exists())
+                .andExpect(header().exists(HttpHeaders.LOCATION))
+                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, MediaTypes.HAL_JSON_VALUE))
+                .andExpect(jsonPath("free").value(false))
+                .andExpect(jsonPath("offline").value(true))
+                .andExpect(jsonPath("eventStatus").value(EventStatus.DRAFT.name()))
+        ;
+    }
+
+    @Test
+    @TestDescription("Test Operation - BadRequest")
+    public void createEvent_Bad_Request() throws Exception {
+
         Event event = Event.builder()
                 .id(100)
                 .name("Spring")
@@ -55,10 +88,10 @@ public class EventControllerTests {
                 .build();
 
         mockMvc.perform( post("/api/events")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaTypes.HAL_JSON)
-                    .content(objectMapper.writeValueAsString(event))
-                )
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaTypes.HAL_JSON)
+                .content(objectMapper.writeValueAsString(event))
+        )
                 .andDo(print())
                 .andExpect( status().isBadRequest() );
     }
