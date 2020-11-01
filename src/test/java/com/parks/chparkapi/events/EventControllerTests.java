@@ -85,7 +85,7 @@ public class EventControllerTests {
                 .beginEventDateTime(LocalDateTime.of(2020,10,31,18,10))
                 .endEventDateTime(LocalDateTime.of(2020,10,1,18,10))
                 .basePrice(100)
-                .maxPrice(200)
+                .maxPrice(50)
                 .limitOfEnrollment(100)
                 .location("강남역 신분당선")
                 .build();
@@ -93,7 +93,12 @@ public class EventControllerTests {
         this.mockMvc.perform(post("/api/events")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(this.objectMapper.writeValueAsString(eventDTO)))
-                .andExpect(status().isBadRequest());
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$[0].objectName").exists())
+                .andExpect(jsonPath("$[0].defaultMessage").exists())
+                .andExpect(jsonPath("$[0].code").exists());
+
     }
 
 }
