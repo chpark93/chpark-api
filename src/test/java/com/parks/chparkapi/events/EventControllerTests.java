@@ -88,7 +88,6 @@ public class EventControllerTests {
                             headerWithName(HttpHeaders.ACCEPT).description("accept header"),
                             headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                         ),
-
                         requestFields(
                             fieldWithPath("name").description("name of New event"),
                             fieldWithPath("description").description("description of New event"),
@@ -108,7 +107,6 @@ public class EventControllerTests {
                                 headerWithName(HttpHeaders.LOCATION).description("location header"),
                                 headerWithName(HttpHeaders.CONTENT_TYPE).description("content type header")
                         ),
-
                         //모든 응답이 아닌 일부분의 응답만을 문서화 하고 싶은 경우
                         //prefix : relaxed -> 1. 문서 일부분만 테스트 가능 2. 정확한 문서를 생성하지는 못함
                         //가능한 경우에는 모든 응답을 문서화
